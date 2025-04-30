@@ -1,13 +1,19 @@
 package com.shop.mandiri_market.dto;
 
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class CashierRequest {
+    private String id;
     private String userId;
     private String phoneNumber;
     private BigDecimal balance;
     private String createdBy;
+    private String updatedBy;
 }
