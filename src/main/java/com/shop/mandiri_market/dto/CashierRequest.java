@@ -5,7 +5,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class MCashierRequest {
+public class CashierRequest {
     private String userId;
     private String phoneNumber;
     private BigDecimal balance;

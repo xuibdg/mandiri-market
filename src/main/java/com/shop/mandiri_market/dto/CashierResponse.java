@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-public class MCashierResponse {
+public class CashierResponse {
     private String id;
     private String userId;
     private String userName; // Jika kamu ingin tampilkan nama user
