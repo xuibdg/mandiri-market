@@ -49,5 +49,22 @@ public class ProductServiceImpl implements ProductService {
         return list;
     }
 
+    @Override
+    public String updateProduct(String id, ProductRequest request) {
+        productRepository.findById(request.getName()).map(data -> {
+            data.setName(request.getName());
+            data.setPrice(request.getPrice());
+            data.setUpdatedAt(LocalDateTime.now());
+            productRepository.save(data);
+            return data;
+        });
 
-}
+        return "PRODUCT UPDATED";
+    }
+
+    @Override
+    public String deleteProduct(String id) {
+        productRepository.deleteById(id);
+        return "PRODUCT DELETED";
+    }
+    }

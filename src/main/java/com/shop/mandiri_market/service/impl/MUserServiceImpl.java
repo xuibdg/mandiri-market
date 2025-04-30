@@ -30,7 +30,6 @@ public class MUserServiceImpl implements MUserService {
     @Autowired
     UserRoleRepository userRoleRepository;
 
-
     @Override
     public String createUser(MUserRequest request) {
 

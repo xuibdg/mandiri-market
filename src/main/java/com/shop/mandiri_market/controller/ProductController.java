@@ -21,8 +21,21 @@ public class ProductController {
     String createProduct(@RequestBody ProductRequest request){
         return productService.createProduct(request);
     }
+
     @GetMapping("/get-all")
     List<ProductResponse> getAll(@RequestParam(required = false, defaultValue = "") String name){
         return productService.getAll(name);
     }
+
+    @PutMapping("/{id}")
+    String updateProduct(@PathVariable String id, @RequestBody ProductRequest request){
+        return productService.updateProduct(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    String deleteProduct(@PathVariable String id){
+        return productService.deleteProduct(id);
+    }
+
+
 }
