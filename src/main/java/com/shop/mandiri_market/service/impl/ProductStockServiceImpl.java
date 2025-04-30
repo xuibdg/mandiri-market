@@ -26,7 +26,7 @@ public class ProductStockServiceImpl implements ProductStockService {
     public ProductStockResponse create(ProductStockRequest dto) {
         Product product = productRepository.findById(dto.getProductId())
                 .filter(Product::isActive)
-                .orElseThrow(() -> new RuntimeException("Product is not active or not found"));
+                .orElseThrow(() -> new RuntimeException("Produk tidak aktif atau tidak ditemukan."));
 
         ProductStock stock = new ProductStock();
         stock.setId(UUID.randomUUID().toString());
@@ -44,11 +44,11 @@ public class ProductStockServiceImpl implements ProductStockService {
     @Override
     public ProductStockResponse update(String id, ProductStockRequest dto) {
         ProductStock stock = productStockRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("ProductStock not found"));
+                .orElseThrow(() -> new RuntimeException("Produk tidak ditemukan."));
 
         Product product = productRepository.findById(dto.getProductId())
                 .filter(Product::isActive)
-                .orElseThrow(() -> new RuntimeException("Product is not active or not found"));
+                .orElseThrow(() -> new RuntimeException("Produk tidak aktif atau tidak ditemukan."));
 
         stock.setProduct(product);
         stock.setStock(dto.getStock());
@@ -64,7 +64,7 @@ public class ProductStockServiceImpl implements ProductStockService {
     @Override
     public void delete(String id) {
         if (!productStockRepository.existsById(id)) {
-            throw new RuntimeException("ProductStock not found");
+            throw new RuntimeException("stok produk tidak ditemukan");
         }
         productStockRepository.deleteById(id);
     }
@@ -72,7 +72,7 @@ public class ProductStockServiceImpl implements ProductStockService {
     @Override
     public ProductStockResponse getById(String id) {
         ProductStock stock = productStockRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("ProductStock not found"));
+                .orElseThrow(() -> new RuntimeException("stok produk tidak ditemukan"));
         return toResponse(stock);
     }
 
