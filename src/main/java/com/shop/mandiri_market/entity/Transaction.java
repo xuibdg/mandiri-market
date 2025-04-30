@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,13 +30,13 @@ public class Transaction {
     private BigDecimal changeAmount;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Timestamp createdAt;
 
     @Column(name = "created_by")
     private String createdBy;
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Timestamp updatedAt;
 
     @Column(name = "updated_by")
     private String updatedBy;

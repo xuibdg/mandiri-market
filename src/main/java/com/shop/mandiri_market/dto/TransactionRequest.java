@@ -14,8 +14,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransactionRequest {
-    private Cashier cashierId;
-    private Product productId;
+    private String cashierId;
+    private String productId;
     private Integer quantity;
     private BigDecimal nominalAmount;
 }
