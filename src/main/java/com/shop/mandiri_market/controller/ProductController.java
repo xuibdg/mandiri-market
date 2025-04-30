@@ -21,6 +21,7 @@ public class ProductController {
     String createProduct(@RequestBody ProductRequest request){
         return productService.createProduct(request);
     }
+
     @GetMapping("/get-all")
     List<ProductResponse> getAll(@RequestParam(required = false, defaultValue = "") String name){
         return productService.getAll(name);
