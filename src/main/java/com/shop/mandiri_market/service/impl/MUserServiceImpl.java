@@ -7,9 +7,12 @@ import com.shop.mandiri_market.entity.UserRole;
 import com.shop.mandiri_market.repository.MUserRepository;
 import com.shop.mandiri_market.repository.UserRoleRepository;
 import com.shop.mandiri_market.service.MUserService;
+import com.shop.mandiri_market.utils.exception.BusinessException;
+import com.shop.mandiri_market.utils.exception.GlobalErrorMapping;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -33,7 +36,7 @@ public class MUserServiceImpl implements MUserService {
     @Override
     public String createUser(MUserRequest request) {
 
-        UserRole userRole = userRoleRepository.findById(request.getRoleId()).orElse(null);
+        UserRole userRole = userRoleRepository.findById(request.getRoleId()).orElseThrow(() ->  new BusinessException(HttpStatus.BAD_REQUEST, GlobalErrorMapping.RULE_NOT_FOUND));
         MUser mUser = MUser.builder()
                 .userId(UUID.randomUUID().toString())
                 .name(request.getName())
@@ -64,7 +67,7 @@ public class MUserServiceImpl implements MUserService {
     @Override
     public String updateUser(String id, MUserRequest request) {
         mUserRepository.findById(id).map(data -> {
-            UserRole userRole = userRoleRepository.findById(request.getRoleId()).orElse(null);
+            UserRole userRole = userRoleRepository.findById(request.getRoleId()).orElseThrow(() ->  new BusinessException(HttpStatus.BAD_REQUEST, GlobalErrorMapping.RULE_NOT_FOUND));
             data.setName(request.getName());
             data.setEmail(request.getEmail());
             data.setPassword(request.getPassword());
