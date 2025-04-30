@@ -36,6 +36,4 @@ public class ProductController {
     String deleteProduct(@PathVariable String id){
         return productService.deleteProduct(id);
     }
-
-
 }
