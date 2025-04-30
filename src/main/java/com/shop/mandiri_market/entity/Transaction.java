@@ -1,6 +1,7 @@
 package com.shop.mandiri_market.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "transaction")
 @Data
+@Builder
 public class Transaction {
 
     @Id

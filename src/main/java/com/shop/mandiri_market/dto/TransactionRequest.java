@@ -17,8 +17,5 @@ public class TransactionRequest {
     private Cashier cashierId;
     private Product productId;
     private Integer quantity;
-    private String totalBuy;
-    private BigDecimal paid;
-
-
+    private BigDecimal nominalAmount;
 }
