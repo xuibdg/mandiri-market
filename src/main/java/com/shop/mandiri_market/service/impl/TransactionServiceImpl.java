@@ -9,6 +9,9 @@ import com.shop.mandiri_market.repository.CashierRepository;
 import com.shop.mandiri_market.repository.ProductRepository;
 import com.shop.mandiri_market.repository.ProductStockRepository;
 import com.shop.mandiri_market.service.TransactionService;
+import com.shop.mandiri_market.utils.exception.BusinessException;
+import com.shop.mandiri_market.utils.exception.GlobalErrorMapping;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -25,9 +28,9 @@ public class TransactionServiceImpl implements TransactionService {
     ProductStockRepository productStockRepository;
     @Override
     public String createTransaction(TransactionRequest transactionRequest) {
-        Cashier cashier = cashierRepository.findById(transactionRequest.getCashierId()).orElse(null);
-        ProductStock productStock = productStockRepository.findById(transactionRequest.getProductId()).orElse(null);
-        Product product = productRepository.findById(transactionRequest.getProductId()).orElse(null);
+        Cashier cashier = cashierRepository.findById(transactionRequest.getCashierId()).orElseThrow(() -> new BusinessException(HttpStatus.BAD_REQUEST, GlobalErrorMapping.CASHIER_NOT_FOUND));
+        ProductStock productStock = productStockRepository.findById(transactionRequest.getProductId()).orElseThrow(() -> new BusinessException(HttpStatus.BAD_REQUEST, GlobalErrorMapping.PRODUCT_STOCK_NOT_FOUND));
+        Product product = productRepository.findById(transactionRequest.getProductId()).orElseThrow(() -> new BusinessException(HttpStatus.BAD_REQUEST, GlobalErrorMapping.PRODUCT_NOT_FOUND));
 
         if (productStock.getStock() <= transactionRequest.getQuantity()){
             BigDecimal totalBuy = product.getPrice().multiply(BigDecimal.valueOf(transactionRequest.getQuantity()));

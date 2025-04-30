@@ -5,7 +5,10 @@ public enum GlobalErrorMapping {
     SUCCESS("0", "SUCCESS"),
     ERROR("1", "ERROR"),
     DATA_NOT_FOUND_CUSTOM("IEG-0012", "Data ${1} tidak ditemukan. Pastikan Value yang anda masukan sudah sesuai"),
-    RULE_NOT_FOUND("IEG-0013", "Data RULE tidak ditemukan. Pastikan Value yang anda masukan sudah sesuai")
+    RULE_NOT_FOUND("IEG-0013", "Data RULE tidak ditemukan. Pastikan Value yang anda masukan sudah sesuai"),
+    CASHIER_NOT_FOUND("IEG-0014", "Data Cashier tidak ditemukan. Pastikan Value yang anda masukan sudah sesuai"),
+    PRODUCT_STOCK_NOT_FOUND("IEG-0015", "Data Product Stock tidak ditemukan. Pastikan Value yang anda masukan sudah sesuai"),
+    PRODUCT_NOT_FOUND("IEG-0016", "Data Product tidak ditemukan. Pastikan Value yang anda masukan sudah sesuai")
     ;
 
 
