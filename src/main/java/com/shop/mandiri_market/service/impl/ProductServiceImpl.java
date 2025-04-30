@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -27,6 +28,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public String createProduct(ProductRequest request) {
         Product product = new Product();
+        product.setId(request.getId());
         product.setName(request.getName());
         product.setPrice(request.getPrice());
         product.setCreatedAt(LocalDateTime.now());
