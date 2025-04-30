@@ -23,19 +23,19 @@ public class TransactionController {
         return transactionService.createTransaction(transactionRequest);
     }
 
-    @GetMapping("/get-all")
+    @GetMapping("/test/get-all")
     List<TransactionResponse> getAll(@RequestParam(required = false, defaultValue = "") String name){
         return transactionService.getAll(name);
 
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     String updateUser(@PathVariable String id, @RequestBody TransactionRequest request){
         return transactionService.updateUser(id, request);
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleted/{id}")
     String deletedUser(@PathVariable String id){
         return transactionService.deletedUser(id);
     }
