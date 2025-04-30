@@ -31,6 +31,7 @@ public class ProductServiceImpl implements ProductService {
         product.setPrice(request.getPrice());
         product.setCreatedAt(LocalDateTime.now());
 
+        productRepository.save(product);
         return "SUCCESS ADD PRODUCT";
 
     }
@@ -51,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public String updateProduct(String id, ProductRequest request) {
-        productRepository.findById(request.getName()).map(data -> {
+        productRepository.findById(request.getId()).map(data -> {
             data.setName(request.getName());
             data.setPrice(request.getPrice());
             data.setUpdatedAt(LocalDateTime.now());
