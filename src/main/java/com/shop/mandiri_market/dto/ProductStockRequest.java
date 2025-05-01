@@ -8,4 +8,5 @@ public class ProductStockRequest {
     private Integer stock;
     private Integer stockOut;
     private String createdBy;
+    private String updatedBy;
 }

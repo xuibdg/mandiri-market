@@ -2,6 +2,7 @@ package com.shop.mandiri_market.controller;
 
 import com.shop.mandiri_market.dto.ProductStockRequest;
 import com.shop.mandiri_market.dto.ProductStockResponse;
+import com.shop.mandiri_market.entity.ProductStock;
 import com.shop.mandiri_market.service.ProductStockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

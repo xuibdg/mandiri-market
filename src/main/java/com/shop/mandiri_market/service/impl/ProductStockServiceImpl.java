@@ -25,8 +25,11 @@ public class ProductStockServiceImpl implements ProductStockService {
     @Override
     public ProductStockResponse create(ProductStockRequest dto) {
         Product product = productRepository.findById(dto.getProductId())
-                .filter(Product::isActive)
                 .orElseThrow(() -> new RuntimeException("Produk tidak aktif atau tidak ditemukan."));
+
+        if (dto.getStock() == null || dto.getStock() <= 0) {
+            throw new RuntimeException("product tidak ada!.");
+        }
 
         ProductStock stock = new ProductStock();
         stock.setId(UUID.randomUUID().toString());
@@ -47,14 +50,13 @@ public class ProductStockServiceImpl implements ProductStockService {
                 .orElseThrow(() -> new RuntimeException("Produk tidak ditemukan."));
 
         Product product = productRepository.findById(dto.getProductId())
-                .filter(Product::isActive)
-                .orElseThrow(() -> new RuntimeException("Produk tidak aktif atau tidak ditemukan."));
+                .orElseThrow(() -> new RuntimeException("produk tidak ditemukan."));
 
         stock.setProduct(product);
         stock.setStock(dto.getStock());
         stock.setStockOut(dto.getStockOut());
         stock.setUpdatedAt(LocalDateTime.now());
-        stock.setUpdatedBy(dto.getCreatedBy());
+        stock.setUpdatedBy(dto.getUpdatedBy());
 
         productStockRepository.save(stock);
         return toResponse(stock);
@@ -78,7 +80,9 @@ public class ProductStockServiceImpl implements ProductStockService {
 
     @Override
     public List<ProductStockResponse> getAll() {
-        return productStockRepository.findAll().stream()
+        return productStockRepository.findAll()
+                .stream()
+                .filter(productStock -> productStock.getStock() != null && productStock.getStock() > 0)
                 .map(this::toResponse)
                 .collect(Collectors.toList());
     }
