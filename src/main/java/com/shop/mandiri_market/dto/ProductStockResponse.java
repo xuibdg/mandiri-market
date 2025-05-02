@@ -10,4 +10,5 @@ public class ProductStockResponse {
     private Integer stockOut;
     private String createdBy;
     private String updatedBy;
+    private boolean isDeleted;
 }

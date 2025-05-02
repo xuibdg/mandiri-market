@@ -9,4 +9,5 @@ public class ProductStockRequest {
     private Integer stockOut;
     private String createdBy;
     private String updatedBy;
+    private boolean isDeleted;
 }

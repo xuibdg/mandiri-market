@@ -24,12 +24,8 @@ public class ProductStockServiceImpl implements ProductStockService {
 
     @Override
     public ProductStockResponse create(ProductStockRequest dto) {
-        Product product = productRepository.findById(dto.getProductId())
+        Product product = productRepository.findByIdAndIsDeletedFalse(dto.getProductId())
                 .orElseThrow(() -> new RuntimeException("Produk tidak aktif atau tidak ditemukan."));
-
-        if (dto.getStock() == null || dto.getStock() <= 0) {
-            throw new RuntimeException("product tidak ada!.");
-        }
 
         ProductStock stock = new ProductStock();
         stock.setId(UUID.randomUUID().toString());
@@ -43,13 +39,27 @@ public class ProductStockServiceImpl implements ProductStockService {
         return toResponse(stock);
     }
 
+    @Override
+    public List<ProductStockResponse> getAll() {
+        return productStockRepository.findAllIsDeletedFalse()
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public ProductStockResponse getById(String id) {
+        ProductStock stock = productStockRepository.findByIdAndIsDeletedFalse(id)
+                .orElseThrow(() -> new RuntimeException("stok produk tidak ditemukan"));
+        return toResponse(stock);
+    }
 
     @Override
     public ProductStockResponse update(String id, ProductStockRequest dto) {
         ProductStock stock = productStockRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produk tidak ditemukan."));
+                .orElseThrow(() -> new RuntimeException("Stock Produk tidak ditemukan."));
 
-        Product product = productRepository.findById(dto.getProductId())
+        Product product = productRepository.findByIdAndIsDeletedFalse(dto.getProductId())
                 .orElseThrow(() -> new RuntimeException("produk tidak ditemukan."));
 
         stock.setProduct(product);
@@ -57,34 +67,19 @@ public class ProductStockServiceImpl implements ProductStockService {
         stock.setStockOut(dto.getStockOut());
         stock.setUpdatedAt(LocalDateTime.now());
         stock.setUpdatedBy(dto.getUpdatedBy());
+        stock.setDeleted(dto.isDeleted());
 
         productStockRepository.save(stock);
         return toResponse(stock);
     }
 
-
     @Override
     public void delete(String id) {
-        if (!productStockRepository.existsById(id)) {
-            throw new RuntimeException("stok produk tidak ditemukan");
-        }
-        productStockRepository.deleteById(id);
-    }
-
-    @Override
-    public ProductStockResponse getById(String id) {
         ProductStock stock = productStockRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("stok produk tidak ditemukan"));
-        return toResponse(stock);
-    }
-
-    @Override
-    public List<ProductStockResponse> getAll() {
-        return productStockRepository.findAll()
-                .stream()
-                .filter(productStock -> productStock.getStock() != null && productStock.getStock() > 0)
-                .map(this::toResponse)
-                .collect(Collectors.toList());
+        stock.setDeleted(true);
+        stock.setUpdatedAt(LocalDateTime.now());
+        productStockRepository.save(stock);
     }
 
     private ProductStockResponse toResponse(ProductStock stock) {
@@ -95,6 +90,7 @@ public class ProductStockServiceImpl implements ProductStockService {
         dto.setStockOut(stock.getStockOut());
         dto.setCreatedBy(stock.getCreatedBy());
         dto.setUpdatedBy(stock.getUpdatedBy());
+        dto.setDeleted(stock.isDeleted());
         return dto;
     }
 }
