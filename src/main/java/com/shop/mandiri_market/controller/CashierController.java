@@ -20,12 +20,12 @@ public class CashierController {
         return cashierService.create(request);
     }
 
-    @PutMapping()
+    @PutMapping("/{id}")
     public CashierResponse update(@PathVariable String id, @RequestBody CashierRequest request) {
         return cashierService.update(id, request);
     }
 
-    @GetMapping()
+    @GetMapping("/id/cashier")
     public CashierResponse getById(@PathVariable String id) {
         return cashierService.getById(id);
     }
@@ -35,7 +35,7 @@ public class CashierController {
         return cashierService.getAll();
     }
 
-    @DeleteMapping()
+    @DeleteMapping("/delete")
     public void delete(@PathVariable String id) {
         cashierService.delete(id);
     }
