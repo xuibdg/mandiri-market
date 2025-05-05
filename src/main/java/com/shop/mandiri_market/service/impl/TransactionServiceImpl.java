@@ -2,10 +2,7 @@ package com.shop.mandiri_market.service.impl;
 
 import com.shop.mandiri_market.dto.TransactionRequest;
 import com.shop.mandiri_market.dto.TransactionResponse;
-import com.shop.mandiri_market.entity.Cashier;
-import com.shop.mandiri_market.entity.Product;
-import com.shop.mandiri_market.entity.ProductStock;
-import com.shop.mandiri_market.entity.Transaction;
+import com.shop.mandiri_market.entity.*;
 import com.shop.mandiri_market.repository.CashierRepository;
 import com.shop.mandiri_market.repository.ProductRepository;
 import com.shop.mandiri_market.repository.ProductStockRepository;
@@ -14,6 +11,7 @@ import com.shop.mandiri_market.service.TransactionService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -40,10 +38,13 @@ public class TransactionServiceImpl implements TransactionService {
     ProductStockRepository productStockRepository;
 
     @Override
+    @Transactional
     public String createTransaction(TransactionRequest transactionRequest) {
         Cashier cashier = cashierRepository.findById(transactionRequest.getCashierId()).orElse(null);
-        ProductStock productStock = productStockRepository.findById(transactionRequest.getProductId()).orElse(null);
         Product product = productRepository.findById(transactionRequest.getProductId()).orElse(null);
+        ProductStock productStock = productStockRepository.findByProductId(product.getId()).orElse(null);
+//        ProductStock productStock = productStockRepository.findById(transactionRequest.getProductId()).orElse(null);
+//        Product product = productRepository.findById(transactionRequest.getProductId()).orElse(null);
 
         if (productStock.getStock() >= transactionRequest.getQuantity()){
             BigDecimal totalBuy = product.getPrice().multiply(BigDecimal.valueOf(transactionRequest.getQuantity()));
@@ -59,6 +60,19 @@ public class TransactionServiceImpl implements TransactionService {
                         .createdAt(Timestamp.from(Instant.now()))
                         .status("SUCCESS")
                         .build();
+
+                TransactionDetail transactionDetail = TransactionDetail.builder()
+                        .id(UUID.randomUUID().toString())
+                        .product(product)
+                        .transaction(transaction)
+                        .quantity(transactionRequest.getQuantity())
+                        .createdAt(Timestamp.from(Instant.now()).toLocalDateTime())
+                        .status("SUCCESS")
+                        .build();
+                transaction.setTransactionDetails(List.of(transactionDetail));
+                transactionRepository.save(transaction);
+                cashierRepository.save(cashier);
+                productStockRepository.save(productStock);
             }
         }
         return "Success created transaction";

@@ -1,12 +1,19 @@
 package com.shop.mandiri_market.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "transaction_detail")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TransactionDetail {
 
     @Id

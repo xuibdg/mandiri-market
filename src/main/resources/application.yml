@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 1945
 
 spring:
   application:
@@ -19,3 +19,8 @@ spring:
       hibernate:
         format_sql: true
         transaction.jta.platform: org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform
+
+  logging:
+    level:
+      org.hibernate.SQL: DEBUG
+      org.hibernate.type.descriptor.sql.BasicBinder: TRACE
