@@ -1,6 +1,5 @@
 package com.shop.mandiri_market.service.impl;
 
-import com.shop.mandiri_market.dto.MUserResponse;
 import com.shop.mandiri_market.dto.TransactionRequest;
 import com.shop.mandiri_market.dto.TransactionResponse;
 import com.shop.mandiri_market.entity.Cashier;
@@ -83,6 +82,10 @@ public class TransactionServiceImpl implements TransactionService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public String updateUser(String id, TransactionRequest request) {
+        return "";
+    }
 
     @Override
     public String deletedUser(String id) {
