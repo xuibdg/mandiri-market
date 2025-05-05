@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 @NoArgsConstructor
 public class TransactionController {
 
@@ -22,21 +22,13 @@ public class TransactionController {
     String createTransaction(@RequestBody TransactionRequest transactionRequest){
         return transactionService.createTransaction(transactionRequest);
     }
-
-    @GetMapping("/test/get-all")
-    List<TransactionResponse> getAll(@RequestParam(required = false, defaultValue = "") String name){
-        return transactionService.getAll(name);
-
-    }
-
-    @PutMapping("/update/{id}")
-    String updateUser(@PathVariable String id, @RequestBody TransactionRequest request){
-        return transactionService.updateUser(id, request);
-    }
-
-
     @DeleteMapping("/deleted/{id}")
     String deletedUser(@PathVariable String id){
         return transactionService.deletedUser(id);
+    }
+
+    @GetMapping("/get-all")
+    List<TransactionResponse> getAll (@RequestParam(required = false, defaultValue = "") String name){
+        return transactionService.getAll(name);
     }
 }
