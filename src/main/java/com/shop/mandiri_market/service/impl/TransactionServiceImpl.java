@@ -83,11 +83,6 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public String updateUser(String id, TransactionRequest request) {
-        return "";
-    }
-
-    @Override
     public String deletedUser(String id) {
         transactionRepository.findById(id).map(data -> {
             data.setIsDeleted(String.valueOf(Boolean.TRUE));
