@@ -8,6 +8,9 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, String> {
 
-    @Query("SELECT p FROM Product p WHERE p.name LIKE CONCAT('%', :name, '%')")
-    List<Product> findByName(String name);
+    /*@Query("SELECT p FROM Product p WHERE p.name LIKE CONCAT('%', :name, '%')")
+    List<Product> findByName(String name);*/
+    //List<Product> findByIsDeleted(String name);
+    @Query("SELECT p FROM Product p WHERE p.isDeleted = false")
+    List<Product> findByIsDeletedFalse(String id);
 }

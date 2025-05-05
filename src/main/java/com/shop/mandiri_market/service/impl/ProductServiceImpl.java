@@ -40,14 +40,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductResponse> getAll(String name) {
-
-        List<ProductResponse> list = productRepository.findByName(name).stream().map(data -> {
+        List<ProductResponse> list = productRepository.findByIsDeletedFalse(name).stream().map(data -> {
             return ProductResponse.builder()
                     .Id(data.getId())
                     .name(data.getName())
                     .price(data.getPrice())
                     .build();
         }).collect(Collectors.toList());
+
+
 
         return list;
     }
@@ -67,7 +68,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public String deleteProduct(String id) {
-        productRepository.deleteById(id);
+        productRepository.findById(id).map(data-> {
+            data.setIsDeleted(Boolean.TRUE);
+            productRepository.save(data);
+            return data;
+        });
         return "PRODUCT DELETED";
     }
     }
