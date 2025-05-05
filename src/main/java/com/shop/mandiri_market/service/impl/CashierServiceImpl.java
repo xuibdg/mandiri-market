@@ -28,6 +28,10 @@ public class CashierServiceImpl implements CashierService {
         MUser user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("User tidak ditemukan"));
 
+        if (!"2".equalsIgnoreCase(user.getUserId())){
+
+        }
+
         Cashier cashier = new Cashier();
         cashier.setId(request.getId());
         cashier.setUser(user);
@@ -68,9 +72,16 @@ public class CashierServiceImpl implements CashierService {
 
     @Override
     public void delete(String id) {
-        Cashier cashier = cashierRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cashier tidak ditemukan"));
-        cashierRepository.delete(cashier);
+
+        cashierRepository.findById(id).map(data -> {
+            data.setDeleted(Boolean.TRUE);
+            cashierRepository.save(data);
+
+            Cashier cashier = cashierRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Cashier tidak ditemukan"));
+            cashierRepository.delete(cashier);
+            return data;
+        });
     }
 
     private CashierResponse toResponse(Cashier entity) {
