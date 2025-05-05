@@ -23,16 +23,22 @@ import java.util.UUID;
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
-    CashierRepository cashierRepository;
-    ProductRepository productRepository;
-    ProductStockRepository productStockRepository;
+    @Autowired
+    private CashierRepository cashierRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private ProductStockRepository productStockRepository;
+
     @Override
     public String createTransaction(TransactionRequest transactionRequest) {
         Cashier cashier = cashierRepository.findById(transactionRequest.getCashierId()).orElse(null);
         ProductStock productStock = productStockRepository.findById(transactionRequest.getProductId()).orElse(null);
         Product product = productRepository.findById(transactionRequest.getProductId()).orElse(null);
 
-        if (productStock.getStock() <= transactionRequest.getQuantity()){
+        if (productStock.getStock() >= transactionRequest.getQuantity()){
             BigDecimal totalBuy = product.getPrice().multiply(BigDecimal.valueOf(transactionRequest.getQuantity()));
             if (transactionRequest.getNominalAmount().compareTo(totalBuy) >= 0) {
                 cashier.setBalance(cashier.getBalance().add(totalBuy));
@@ -67,8 +73,3 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
 }
-
-
-
-
-
