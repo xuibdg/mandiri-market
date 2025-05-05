@@ -65,8 +65,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<TransactionResponse> getAll(String name) {
-        return transactionRepository.findByName(name).stream().flatMap(data -> data.getTransactionDetails().stream()
+    public List<TransactionResponse> getAll() {
+        return transactionRepository.findAll().stream().flatMap(data -> data.getTransactionDetails().stream()
                         .map(detail -> TransactionResponse.builder()
                                 .cashierId(data.getCashier())
                                 .productId(detail.getProduct())

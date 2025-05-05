@@ -27,8 +27,8 @@ public class TransactionController {
         return transactionService.deletedUser(id);
     }
 
-    @GetMapping("/get-all")
-    List<TransactionResponse> getAll (@RequestParam(required = false, defaultValue = "") String name){
-        return transactionService.getAll(name);
+    @GetMapping("/transactions")
+    public List<TransactionResponse> getAll() {
+        return transactionService.getAll();
     }
 }

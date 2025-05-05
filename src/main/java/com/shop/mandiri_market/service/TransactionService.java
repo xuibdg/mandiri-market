@@ -8,6 +8,6 @@ import java.util.List;
 public interface TransactionService {
     String createTransaction(TransactionRequest transactionRequest);
     String deletedUser(String id);
-    List<TransactionResponse> getAll (String name);
+    List<TransactionResponse> getAll ();
 
 }
