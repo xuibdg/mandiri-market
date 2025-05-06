@@ -97,16 +97,6 @@ public class TransactionServiceImpl implements TransactionService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public String deletedUser(String id) {
-        transactionRepository.findById(id).map(data -> {
-            data.setIsDeleted(String.valueOf(Boolean.TRUE));
-            transactionRepository.save(data);
-            return data;
-        });
-
-        return "SUCCESS DELETED";
-    }
 }
 
 

@@ -22,10 +22,6 @@ public class TransactionController {
     String createTransaction(@RequestBody TransactionRequest transactionRequest){
         return transactionService.createTransaction(transactionRequest);
     }
-    @DeleteMapping("/deleted/{id}")
-    String deletedUser(@PathVariable String id){
-        return transactionService.deletedUser(id);
-    }
 
     @GetMapping("/transactions")
     public List<TransactionResponse> getAll() {
