@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class TransactionResponse {
-    private Cashier cashierId;
-    private Product productId;
+    private String cashierId;
+    private String productId;
     private BigDecimal totalBuy;
     private BigDecimal  paid;
     private BigDecimal changeAmount;

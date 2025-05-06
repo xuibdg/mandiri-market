@@ -83,8 +83,8 @@ public class TransactionServiceImpl implements TransactionService {
     public List<TransactionResponse> getAll() {
         return transactionRepository.findAll().stream().flatMap(data -> data.getTransactionDetails().stream()
                         .map(detail -> TransactionResponse.builder()
-                                .cashierId(data.getCashier())
-                                .productId(detail.getProduct())
+                                .cashierId(data.getCashier().getId())
+                                .productId(detail.getProduct().getId())
                                 .totalBuy(data.getTotalBuy())
                                 .paid(data.getPaid())
                                 .changeAmount(data.getChangeAmount())
