@@ -2,10 +2,8 @@ package com.shop.mandiri_market.controller;
 
 import com.shop.mandiri_market.dto.ProductStockRequest;
 import com.shop.mandiri_market.dto.ProductStockResponse;
-import com.shop.mandiri_market.entity.ProductStock;
 import com.shop.mandiri_market.service.ProductStockService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,29 +16,29 @@ public class ProductStockController {
     private final ProductStockService productStockService;
 
     @PostMapping
-    public ResponseEntity<ProductStockResponse> create(@RequestBody ProductStockRequest dto) {
-        return ResponseEntity.ok(productStockService.create(dto));
+    public ProductStockResponse create(@RequestBody ProductStockRequest dto) {
+        return productStockService.create(dto);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ProductStockResponse>> getAll() {
-        return ResponseEntity.ok(productStockService.getAll());
+    public List<ProductStockResponse> getAll() {
+        return productStockService.getAll();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductStockResponse> update(@PathVariable String id, @RequestBody ProductStockRequest dto) {
-        return ResponseEntity.ok(productStockService.update(id, dto));
+    public ProductStockResponse update(@PathVariable String id, @RequestBody ProductStockRequest dto) {
+        return productStockService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
+    public String delete(@PathVariable String id) {
         productStockService.delete(id);
-        return ResponseEntity.noContent().build();
+        return "Delete Success.";
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductStockResponse> getById(@PathVariable String id) {
-        return ResponseEntity.ok(productStockService.getById(id));
+    public ProductStockResponse getById(@PathVariable String id) {
+        return productStockService.getById(id);
     }
 
 

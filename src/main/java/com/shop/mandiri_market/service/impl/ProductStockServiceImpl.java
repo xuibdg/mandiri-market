@@ -1,15 +1,24 @@
 package com.shop.mandiri_market.service.impl;
 
+import com.shop.mandiri_market.dto.MUserRequest;
 import com.shop.mandiri_market.dto.ProductStockRequest;
 import com.shop.mandiri_market.dto.ProductStockResponse;
+import com.shop.mandiri_market.entity.MUser;
 import com.shop.mandiri_market.entity.Product;
 import com.shop.mandiri_market.entity.ProductStock;
+import com.shop.mandiri_market.entity.UserRole;
 import com.shop.mandiri_market.repository.ProductRepository;
 import com.shop.mandiri_market.repository.ProductStockRepository;
 import com.shop.mandiri_market.service.ProductStockService;
+import com.shop.mandiri_market.utils.exception.BusinessException;
+import com.shop.mandiri_market.utils.exception.GlobalErrorMapping;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -19,13 +28,16 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductStockServiceImpl implements ProductStockService {
 
-    private final ProductStockRepository productStockRepository;
-    private final ProductRepository productRepository;
+    @Autowired
+    ProductStockRepository productStockRepository;
+
+    @Autowired
+    ProductRepository productRepository;
 
     @Override
     public ProductStockResponse create(ProductStockRequest dto) {
         Product product = productRepository.findByIdAndIsDeletedFalse(dto.getProductId())
-                .orElseThrow(() -> new RuntimeException("Produk tidak aktif atau tidak ditemukan."));
+                .orElseThrow(() -> new BusinessException(HttpStatus.BAD_REQUEST, GlobalErrorMapping.PRODUCT_NOT_FOUND));
 
         ProductStock stock = new ProductStock();
         stock.setId(UUID.randomUUID().toString());
@@ -50,17 +62,17 @@ public class ProductStockServiceImpl implements ProductStockService {
     @Override
     public ProductStockResponse getById(String id) {
         ProductStock stock = productStockRepository.findByIdAndIsDeletedFalse(id)
-                .orElseThrow(() -> new RuntimeException("stok produk tidak ditemukan"));
+                .orElseThrow(() -> new BusinessException(HttpStatus.BAD_REQUEST, GlobalErrorMapping.PRODUCT_NOT_FOUND));
         return toResponse(stock);
     }
 
     @Override
     public ProductStockResponse update(String id, ProductStockRequest dto) {
         ProductStock stock = productStockRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Stock Produk tidak ditemukan."));
+                .orElseThrow(() -> new BusinessException(HttpStatus.BAD_REQUEST, GlobalErrorMapping.STOCK_NOT_FOUND));
 
         Product product = productRepository.findByIdAndIsDeletedFalse(dto.getProductId())
-                .orElseThrow(() -> new RuntimeException("produk tidak ditemukan."));
+                .orElseThrow(() -> new BusinessException(HttpStatus.BAD_REQUEST, GlobalErrorMapping.PRODUCT_NOT_FOUND));
 
         stock.setProduct(product);
         stock.setStock(dto.getStock());
@@ -76,7 +88,7 @@ public class ProductStockServiceImpl implements ProductStockService {
     @Override
     public void delete(String id) {
         ProductStock stock = productStockRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("stok produk tidak ditemukan"));
+                .orElseThrow(() -> new BusinessException(HttpStatus.BAD_REQUEST, GlobalErrorMapping.STOCK_NOT_FOUND));
         stock.setDeleted(true);
         stock.setUpdatedAt(LocalDateTime.now());
         productStockRepository.save(stock);
