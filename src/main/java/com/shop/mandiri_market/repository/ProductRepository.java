@@ -11,6 +11,10 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     @Query("SELECT ps FROM Product ps WHERE ps.isDeleted = false")
     List<Product> findAllIsDeletedFalse();
 
+    @Query("SELECT p FROM Product p WHERE p.name LIKE CONCAT('%', :name, '%')")
+    List<Product> findByName(String name);
+    @Query("SELECT p FROM Product p WHERE p.isDeleted = false")
+    List<Product> findByIsDeletedFalse(String id);
     @Query("SELECT ps FROM Product ps WHERE ps.id = :id AND ps.isDeleted = false")
     Optional<Product> findByIdAndIsDeletedFalse(String id);
 }

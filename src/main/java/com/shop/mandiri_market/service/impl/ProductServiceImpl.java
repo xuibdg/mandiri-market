@@ -1,0 +1,78 @@
+package com.shop.mandiri_market.service.impl;
+
+import com.shop.mandiri_market.dto.ProductRequest;
+import com.shop.mandiri_market.dto.ProductResponse;
+import com.shop.mandiri_market.entity.Product;
+import com.shop.mandiri_market.repository.ProductRepository;
+import com.shop.mandiri_market.service.ProductService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Service
+public class ProductServiceImpl implements ProductService {
+
+    @Autowired
+    ProductRepository productRepository;
+
+    @Override
+    public String createProduct(ProductRequest request) {
+        Product product = new Product();
+        product.setId(request.getId());
+        product.setName(request.getName());
+        product.setPrice(request.getPrice());
+        product.setCreatedAt(LocalDateTime.now());
+
+        productRepository.save(product);
+        return "SUCCESS ADD PRODUCT";
+
+    }
+
+    @Override
+    public List<ProductResponse> getAll(String name) {
+        List<ProductResponse> list = productRepository.findByIsDeletedFalse(name).stream().map(data -> {
+            return ProductResponse.builder()
+                    .Id(data.getId())
+                    .name(data.getName())
+                    .price(data.getPrice())
+                    .build();
+        }).collect(Collectors.toList());
+
+
+
+        return list;
+    }
+
+    @Override
+    public String updateProduct(String id, ProductRequest request) {
+        productRepository.findById(request.getId()).map(data -> {
+            data.setName(request.getName());
+            data.setPrice(request.getPrice());
+            data.setUpdatedAt(LocalDateTime.now());
+            productRepository.save(data);
+            return data;
+        });
+
+        return "PRODUCT UPDATED";
+    }
+
+    @Override
+    public String deleteProduct(String id) {
+        productRepository.findById(id).map(data-> {
+            data.setIsDeleted(Boolean.TRUE);
+            productRepository.save(data);
+            return data;
+        });
+        return "PRODUCT DELETED";
+    }
+    }
