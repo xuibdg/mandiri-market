@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Builder
 public class MUserResponse {
+    private String id;
     private String userId;
     private String name;
     private String email;
