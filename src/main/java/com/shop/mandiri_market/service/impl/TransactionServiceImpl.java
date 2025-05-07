@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -85,12 +84,12 @@ public class TransactionServiceImpl implements TransactionService {
                         .map(detail -> TransactionResponse.builder()
                                 .cashierId(data.getCashier().getId())
                                 .productId(detail.getProduct().getId())
-                                .totalBuy(data.getTotalBuy())
-                                .paid(data.getPaid())
-                                .changeAmount(data.getChangeAmount())
-                                .createdAt(data.getCreatedAt())
                                 .transactionId(data.getId())
                                 .quantity(detail.getQuantity())
+                                .paid(data.getPaid())
+                                .totalBuy(data.getTotalBuy())
+                                .changeAmount(data.getChangeAmount())
+                                .createdAt(data.getCreatedAt())
                                 .status(data.getStatus())
                                 .build()
                         ))

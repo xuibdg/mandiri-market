@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface TransactionService {
     String createTransaction(TransactionRequest transactionRequest);
-    List<TransactionResponse> getAll ();
+    List<TransactionResponse> getAll();
 
 }
