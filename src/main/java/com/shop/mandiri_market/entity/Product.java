@@ -30,5 +30,8 @@ public class Product {
 
     @Column(name = "updated_by")
     private String updatedBy;
+
+    @Column (name = "is_deleted")
+    private Boolean isDeleted = false;
 }
 

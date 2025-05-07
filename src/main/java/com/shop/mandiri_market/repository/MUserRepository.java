@@ -10,4 +10,6 @@ public interface MUserRepository extends JpaRepository<MUser, String> {
 
     @Query("SELECT mu FROM MUser mu WHERE mu.name LIKE CONCAT('%', :name, '%')")
     List<MUser> findByName(String name);
+
+
 }
