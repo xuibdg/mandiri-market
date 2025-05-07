@@ -1,15 +1,18 @@
 package com.shop.mandiri_market.dto;
 
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class CashierResponse {
     private String id;
     private String userId;
-    private String userName; // Jika kamu ingin tampilkan nama user
     private String phoneNumber;
     private BigDecimal balance;
     private LocalDateTime createdAt;
