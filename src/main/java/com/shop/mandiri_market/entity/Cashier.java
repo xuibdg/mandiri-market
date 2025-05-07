@@ -3,6 +3,7 @@ package com.shop.mandiri_market.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 
 import java.math.BigDecimal;
@@ -14,6 +15,9 @@ import java.time.LocalDateTime;
 public class Cashier {
 
     @Id
+    @Column(name = "ID", nullable = false, length = 70)
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,4 +40,7 @@ public class Cashier {
 
     @Column(name = "updated_by")
     private String updatedBy;
+
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 }
