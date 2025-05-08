@@ -12,6 +12,8 @@ public interface ProductStockRepository extends JpaRepository<ProductStock, Stri
     @Query("SELECT ps FROM ProductStock ps WHERE ps.isDeleted = false")
     List<ProductStock> findAllIsDeletedFalse();
 
+    @Query(value = "select * from product_stock ps where ps.product_id  = :productId \n" +
+            "and is_deleted is false limit 1", nativeQuery = true)
     Optional<ProductStock> findByProductId(String productId);
 
     @Query("SELECT ps FROM ProductStock ps WHERE ps.id = :id AND ps.isDeleted = false")

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -23,8 +24,8 @@ public class ProductController {
     }
 
     @GetMapping("/get-all")
-    List<ProductResponse> getAll(@RequestParam(required = false, defaultValue = "") String name){
-        return productService.getAll(name);
+    List<ProductResponse> getAll(@RequestParam(required = false) String name, @RequestParam(required = false) BigDecimal price){
+        return productService.getAll(name, price);
     }
 
     @PutMapping("/{id}")

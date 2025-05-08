@@ -49,7 +49,7 @@ public class Transaction {
     private String updatedBy;
 
     @Column(name = "is_deleted")
-    private String isDeleted;
+    private Boolean isDeleted;
 
     @Column(name = "status")
     private String status;

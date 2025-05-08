@@ -3,12 +3,13 @@ package com.shop.mandiri_market.service;
 import com.shop.mandiri_market.dto.ProductRequest;
 import com.shop.mandiri_market.dto.ProductResponse;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface ProductService {
 
     String createProduct(ProductRequest request);
-    List<ProductResponse> getAll(String name);
+    List<ProductResponse> getAll(String name, BigDecimal price);
     String updateProduct(String id, ProductRequest request);
     String deleteProduct(String id);
 }

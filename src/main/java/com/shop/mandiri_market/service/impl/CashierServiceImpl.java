@@ -74,7 +74,7 @@ public class CashierServiceImpl implements CashierService {
     public void delete(String id) {
 
         cashierRepository.findById(id).map(data -> {
-            data.setDeleted(Boolean.TRUE);
+            data.setIsDeleted(Boolean.TRUE);
             cashierRepository.save(data);
 
             Cashier cashier = cashierRepository.findById(id)

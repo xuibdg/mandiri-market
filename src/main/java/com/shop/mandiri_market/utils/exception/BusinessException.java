@@ -48,4 +48,12 @@ public class BusinessException extends BaseException {
     public BusinessException(HttpStatus httpStatus, String errorCode, String rootCause, Map<String, String> maps) {
         super(httpStatus, errorCode, rootCause, maps);
     }
+
+//    public BusinessException(GlobalErrorMapping errorMapping, String referenceNumber) {
+//        super(MetaData.builder()
+//                .status(errorMapping.code)
+//                .message(errorMapping.message)
+//                .code(0)
+//                .build(), (StringUtil.notNullNorEmpty(referenceNumber)? referenceNumber: null), "");
+//    }
 }

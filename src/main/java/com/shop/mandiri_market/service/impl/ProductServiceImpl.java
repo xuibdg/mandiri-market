@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -39,8 +40,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductResponse> getAll(String name) {
-        List<ProductResponse> list = productRepository.findByIsDeletedFalse(name).stream().map(data -> {
+    public List<ProductResponse> getAll(String name, BigDecimal price) {
+        List<ProductResponse> list = productRepository.findByNameAndPrice(name, price).stream().map(data -> {
             return ProductResponse.builder()
                     .Id(data.getId())
                     .name(data.getName())
