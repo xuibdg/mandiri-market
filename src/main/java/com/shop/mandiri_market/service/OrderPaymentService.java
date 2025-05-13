@@ -8,4 +8,6 @@ public interface OrderPaymentService {
     public void createOrderAndPayment(Order order, Payment payment);
 
     public String processTransactionOrder(OrderPaymentRequest request);
+
+    public String updateProcessor(Long id, OrderPaymentRequest request);
 }

@@ -4,10 +4,11 @@ import com.shop.mandiri_market.dto.OrderPaymentRequest;
 import com.shop.mandiri_market.entity.Order;
 import com.shop.mandiri_market.entity.Payment;
 import com.shop.mandiri_market.service.OrderPaymentService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class OrderController {
@@ -43,5 +44,26 @@ public class OrderController {
             return "error : " + e.getMessage();
         }
     }
+
+    @PutMapping("/update-processor/{id}")
+    public String updateProcessor(@PathVariable Long id, @RequestBody OrderPaymentRequest orderPaymentRequest) {
+        try {
+            String s = orderPaymentService.updateProcessor(id, orderPaymentRequest);
+            return "update-processor successfully " + s;
+        } catch (RuntimeException e) {
+            return "error : " + e.getMessage();
+        }
+    }
+
+    @PutMapping("/update-processor-v2/{id}")
+    public String updateProcessorv2(@PathVariable Long id, @RequestBody OrderPaymentRequest orderPaymentRequest) {
+        try {
+            orderPaymentService.updateProcessor(id, orderPaymentRequest);
+            return "update-processor successfully";
+        } catch (Exception e) {
+            return "error : " + e.getMessage();
+        }
+    }
+
 
 }
