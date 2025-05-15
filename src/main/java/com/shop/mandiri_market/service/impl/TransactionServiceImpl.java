@@ -49,7 +49,7 @@ public class TransactionServiceImpl implements TransactionService {
         if (productStock.getStock() < transactionRequest.getQuantity()) {
             throw new BusinessException(HttpStatus.BAD_REQUEST, GlobalErrorMapping.PRODUCT_STOCK_NOT_ENOUGH);
         }
-        BigDecimal totalBuy = product.getPrice().multiply(BigDecimal.valueOf(transactionRequest.getQuantity()));
+        BigDecimal totalBuy = validateTotalBuy(transactionRequest.getQuantity(), product.getPrice());
         if (transactionRequest.getNominalAmount().compareTo(totalBuy) >= 0) {
 
             cashier.setBalance(cashier.getBalance().add(totalBuy));
@@ -77,6 +77,12 @@ public class TransactionServiceImpl implements TransactionService {
         }
         return "Success created transaction";
     }
+
+    public static BigDecimal validateTotalBuy(Integer qty, BigDecimal price) {
+        BigDecimal totalBuy = price.multiply(BigDecimal.valueOf(qty));
+        return totalBuy;
+    }
+
 
     @Override
     public List<TransactionResponse> getAll() {
