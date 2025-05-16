@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -60,6 +61,12 @@ public class UnitTest {
     void testValidateTotalBuy() {
         logs.add("ValidateTotalBuy method executed");
         assertEquals(BigDecimal.valueOf(5000), transactionServiceImpl.validateTotalBuy(5, BigDecimal.valueOf(1000)));
+    }
+
+    @Test
+    void testUUID() {
+        logs.add("UUID method executed");
+        System.out.println(UUID.randomUUID().getMostSignificantBits());
     }
 
 
